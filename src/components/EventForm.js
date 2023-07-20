@@ -21,6 +21,11 @@ const EventForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!eventName || !eventDate) {
+      alert("Please enter a valid event name and date.");
+      return;
+    }
+
     props.onSubmit({
       id: uuid(),
       name: eventName,
@@ -36,20 +41,16 @@ const EventForm = (props) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Event Name"
+        placeholder="Event"
         value={eventName}
-        onChange={(e) => setEventName(e.target.value)}
+        onChange={handleNameChange}
       />
-      <input
-        type="date"
-        value={eventDate}
-        onChange={(e) => setEventDate(e.target.value)}
-      />
+      <input type="date" value={eventDate} onChange={handleDateChange} />
       <input
         type="text"
         placeholder="Details..."
         value={eventDescription}
-        onChange={(e) => setEventDescription(e.target.value)}
+        onChange={handleDescriptionChange}
       />
       <button type="submit">Add Event</button>
     </form>

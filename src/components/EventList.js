@@ -6,19 +6,26 @@ function EventList() {
   const [events, setEvents] = useState([]);
 
   const addEvent = (event) => {
-    setEvents([...events, event]);
-
-    setEvents((prevEvents) =>
-      prevEvents.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
+    // Sort so that earliest event is the most recent (at the top)
+    // Convert to Date objects
+    setEvents(
+      [event, ...events].sort((a, b) => new Date(a.date) - new Date(b.date))
     );
   };
 
-  return <div>
-    <h1>Scheduler</h1>
-    <EventForm onSubmit={addEvent} />
-    <h2>Upcoming Events</h2>
-    <Event events={events} />
-  </div>;
+  const deleteEvent = (id) => {
+    const deletedEventArr = [...events].filter((event) => event.id !== id);
+    setEvents(deletedEventArr);
+  };
+
+  return (
+    <div>
+      <h1>Scheduler</h1>
+      <EventForm onSubmit={addEvent} />
+      <h2>Upcoming Events</h2>
+      <Event events={events} deleteEvent={deleteEvent} />
+    </div>
+  );
 }
 
 export default EventList;
